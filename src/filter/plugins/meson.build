@@ -20,6 +20,7 @@ filter_plugins = static_library(
   'NormalizeFilterPlugin.cxx',
   'ReplayGainFilterPlugin.cxx',
   'VolumeFilterPlugin.cxx',
+  'VolumeRampFilterPlugin.cxx',
   filter_plugins_sources,
   include_directories: inc,
   dependencies: [

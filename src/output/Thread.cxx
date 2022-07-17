@@ -379,6 +379,7 @@ AudioOutputControl::InternalPause(std::unique_lock<Mutex> &lock) noexcept
 static void
 PlayFull(FilteredAudioOutput &output, std::span<const std::byte> buffer)
 {
+
 	while (!buffer.empty()) {
 		size_t nbytes = output.Play(buffer.data(), buffer.size());
 		assert(nbytes > 0);
@@ -436,6 +437,9 @@ AudioOutputControl::Task() noexcept
 	std::unique_lock<Mutex> lock(mutex);
 
 	while (true) {
+	    if(command != Command::NONE){
+		FmtInfo(output_domain, "Command: {}", static_cast<int>(command));
+	    }
 		switch (command) {
 		case Command::NONE:
 			/* no pending command: play (or wait for a

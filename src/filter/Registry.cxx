@@ -24,6 +24,7 @@
 #include "plugins/NormalizeFilterPlugin.hxx"
 #include "plugins/FfmpegFilterPlugin.hxx"
 #include "plugins/HdcdFilterPlugin.hxx"
+#include "plugins/VolumeRampFilterPlugin.hxx"
 #include "config.h"
 
 #include <string.h>
@@ -36,6 +37,7 @@ static constexpr const FilterPlugin *filter_plugins[] = {
 	&ffmpeg_filter_plugin,
 	&hdcd_filter_plugin,
 #endif
+	&volume_ramp_filter_plugin,
 	nullptr,
 };
 

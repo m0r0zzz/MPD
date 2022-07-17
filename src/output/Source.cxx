@@ -244,14 +244,22 @@ AudioOutputSource::ConsumeData(size_t nbytes) noexcept
 {
 	pending_data = pending_data.subspan(nbytes);
 
-	if (pending_data.empty())
+	if (pending_data.empty() && current_chunk)
 		DropCurrentChunk();
 }
 
 std::span<const std::byte>
 AudioOutputSource::Flush()
 {
-	return filter
-		? filter->Flush()
-		: std::span<const std::byte>{};
+    if(!pending_data.empty()){
+	auto ret = pending_data;
+	pending_data = std::span<const std::byte>{};
+	if(current_chunk)
+	    DropCurrentChunk();
+	return ret;
+    } else {
+	if(current_chunk)
+	    DropCurrentChunk();
+	return filter ? filter->Flush() : std::span<const std::byte>{};
+    }
 }

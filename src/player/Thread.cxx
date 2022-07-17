@@ -1113,7 +1113,7 @@ Player::SongBorder() noexcept
 		/* drain all outputs to guarantee the current song is
 		   really being played to the end; without this, the
 		   Pause() call would drop all ring buffers */
-		pc.outputs.Drain();
+	        /*Drain() is already executed in Pause()*/
 
 		pc.outputs.Pause();
 		idle_add(IDLE_PLAYER);

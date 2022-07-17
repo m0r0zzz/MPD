@@ -310,6 +310,11 @@ MultipleOutputs::CheckPipe() noexcept
 void
 MultipleOutputs::Pause() noexcept
 {
+    for (const auto &ao : outputs)
+	    ao->LockDrainAsync();
+
+	WaitAll();
+
 	Update(false);
 
 	for (const auto &ao : outputs)
@@ -330,6 +335,11 @@ MultipleOutputs::Drain() noexcept
 void
 MultipleOutputs::Cancel() noexcept
 {
+    for (const auto &ao : outputs)
+	    ao->LockDrainAsync();
+
+	WaitAll();
+
 	/* send the cancel() command to all audio outputs */
 
 	for (const auto &ao : outputs)
@@ -368,6 +378,12 @@ MultipleOutputs::Close() noexcept
 void
 MultipleOutputs::Release() noexcept
 {
+
+    for (const auto &ao : outputs)
+	    ao->LockDrainAsync();
+
+	WaitAll();
+
 	for (const auto &ao : outputs)
 		ao->LockRelease();
 

@@ -183,6 +183,8 @@ public:
 	void Cancel() noexcept override;
 	bool Pause() override;
 
+    void Drain() override;
+
 private:
 	bool LockWasShutdown() const noexcept {
 		const std::scoped_lock<Mutex> lock(mutex);
@@ -739,6 +741,14 @@ JackOutput::Pause()
 	pause = true;
 
 	return true;
+}
+
+void JackOutput::Drain() {
+    while(GetAvailable() > 0){
+	/* XXX do something more intelligent to
+		   synchronize */
+		usleep(1000);
+    }
 }
 
 const struct AudioOutputPlugin jack_output_plugin = {
